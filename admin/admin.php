@@ -55,8 +55,7 @@
 			window.onload = loadScript;
 		</script>
 		<style>
-			#map_canvas{
-				width: 300px;
+			#map_canvas{				
 				height: 200px;
 			}
 		</style>
