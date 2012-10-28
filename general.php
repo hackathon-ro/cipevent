@@ -35,6 +35,8 @@
 						if(xhr.responseText.charAt(0) != "#"){
 							var ev = JSON.parse(xhr.responseText);
 
+							console.log(ev);
+
 							var text = ev.event_name + " starts in " + ev.time;
 							document.getElementById("main").innerHTML = text;
 						}else{
@@ -63,7 +65,10 @@
 			}
 
 			#main{
-
+				color:#222222;
+				font-family: Verdana;
+				font-size: 16px;
+				text-align:center;
 			}
 		</style>
 	</head>
@@ -71,9 +76,7 @@
 	<body>
 		<div id="intro">
 			Please enable geolocation for your browser.
-		<div>
-		<div id="main">
-
 		</div>
+		<div id="main"></div>
 	</body>
 </html>
