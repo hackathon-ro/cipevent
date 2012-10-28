@@ -2,19 +2,15 @@
 <html>
 	<head>
 		<title>Experiment</title>
-	</head>
-
-	<body>
-		<script>
-			
+		<script>			
 			var position = null;
-			const DOMAIN = 'http://cip-cirip.ro';
+			const DOMAIN = 'http://cip-cirip.ro/beta';
 
 			function accept(p){
 				console.log(p);
 				position = p;
-				//p.coords.latitude
-				//p.coords.longitude
+				document.getElementById('intro').style.display = "none";
+				getEvents();
 			}
 
 			function exception(str){
@@ -32,21 +28,52 @@
 
 			function getEvents(){
 				var xhr = new XMLHttpRequest;
-			    xhr.open("POST", DOMAIN + "/events/", true);
+			    xhr.open("POST", DOMAIN + "/events.php", true);
 
 			    xhr.onreadystatechange = function() {
 			        if (xhr.readyState === 4) {
-						alert(xhr.responseText);					
+						if(xhr.responseText.charAt(0) != "#"){
+							var ev = JSON.parse(xhr.responseText);
+
+							var text = ev.event_name + " starts in " + ev.time;
+							document.getElementById("main").innerHTML = text;
+						}else{
+							alert(xhr.responseText);
+						}										
 			        }
 			    };
 
 		    	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		    	
-		    	var data = "data=" + encodeURIComponent(canvas.toDataURL("image/png"));
+		    	var data = "latitude=" + encodeURIComponent(position.coords.latitude) + "&longitude=" + encodeURIComponent(position.coords.longitude);
 		    	xhr.send(data);
 			}
 
-			getAccess();
+			window.onload = getAccess();
 		</script>
+		<style>
+			#intro{
+				background-color:red;
+				color:white;
+				text-align:center;
+				width:300px;
+				height:100px;
+				margin:auto;
+				border-radius:5px;
+			}
+
+			#main{
+
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="intro">
+			Please enable geolocation for your browser.
+		<div>
+		<div id="main">
+
+		</div>
 	</body>
 </html>
