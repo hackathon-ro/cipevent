@@ -53,30 +53,29 @@
 
 			window.onload = getAccess();
 		</script>
-		<style>
-			#intro{
-				background-color:red;
-				color:white;
-				text-align:center;
-				width:300px;
-				height:100px;
-				margin:auto;
-				border-radius:5px;
-			}
+		<LINK href="style.css" rel="stylesheet" type="text/css">
 
-			#main{
-				color:#222222;
-				font-family: Verdana;
-				font-size: 16px;
-				text-align:center;
+		<style>
+			#continer{
+				position:relative;
+				width:100%;
+				height:100%;
+				min-height: 100%;
+				background-color: black;
+				background:url(<?php echo $bg;?>) center center;
 			}
 		</style>
 	</head>
 
 	<body>
-		<div id="intro">
-			Please enable geolocation for your browser.
+		<div id="continer">
+			<div id="intro">
+				Please enable geolocation for your browser.
+			</div>
+			<div id="main"></div>
+			<div id="footer">
+				<a href="#">about</a>
+			<div>
 		</div>
-		<div id="main"></div>
 	</body>
 </html>
