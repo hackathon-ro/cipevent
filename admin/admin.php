@@ -11,7 +11,7 @@
 				geocoder = new google.maps.Geocoder();
 				var mapOptions = {
 					zoom: 16,
-					center: new google.maps.LatLng(-34.397, 150.644),
+					center: new google.maps.LatLng(44.431447, 26.0974538),
 					mapTypeId: google.maps.MapTypeId.ROADMAP
 				}
 				map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);

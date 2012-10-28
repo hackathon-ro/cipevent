@@ -31,14 +31,18 @@ body {
 
 	margin-left:-300px;
 	margin-top:-200px;
-	opacity:.8;
-	
-	background-color:#222222;
+
+	background:url(img/bg.png);
 	color:white;
 	font-family: Verdana;
 	font-size: 32px;
 	text-align:center;
 	border-radius:30px;
+}
+
+#map_canvas{
+	margin-top: 50px;
+	height:200px;
 }
 
 #footer{
@@ -53,6 +57,7 @@ body {
 	font-family: Verdana;
 	font-size: 16px;
 	line-height: 40px;
+	text-align: center;
 }
 
 #footer a{

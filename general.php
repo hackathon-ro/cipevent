@@ -2,15 +2,20 @@
 <html>
 	<head>
 		<title>Experiment</title>
-		<script>			
-			var position = null;
+		<script>
 			const DOMAIN = 'http://cip-cirip.ro/beta';
+			
+			//Get user position		
+			var position = null;
+			var ev = null; //Main event
 
 			function accept(p){
 				console.log(p);
 				position = p;
 				document.getElementById('intro').style.display = "none";
 				getEvents();
+				//Call for Google maps API
+				loadScript();
 			}
 
 			function exception(str){
@@ -33,12 +38,12 @@
 			    xhr.onreadystatechange = function() {
 			        if (xhr.readyState === 4) {
 						if(xhr.responseText.charAt(0) != "#"){
-							var ev = JSON.parse(xhr.responseText);
+							ev = JSON.parse(xhr.responseText);
 
 							console.log(ev);
 
 							var text = ev.event_name + " starts in " + ev.time;
-							document.getElementById("main").innerHTML = text;
+							document.getElementById("message").innerHTML = text;
 						}else{
 							alert(xhr.responseText);
 						}										
@@ -49,6 +54,53 @@
 		    	
 		    	var data = "latitude=" + encodeURIComponent(position.coords.latitude) + "&longitude=" + encodeURIComponent(position.coords.longitude);
 		    	xhr.send(data);
+			}
+
+			//Maps...
+			var map = null;
+			var geocoder = null;
+			var markersArray = [];
+			var directionsService = null;
+			var start = null;
+			var end = null;
+
+			function initialize() {
+				directionsService = new google.maps.DirectionsService();
+				directionsDisplay = new google.maps.DirectionsRenderer();
+
+				start = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+				end   = new google.maps.LatLng(ev.latitude, ev.longitude);
+				//geocoder = new google.maps.Geocoder();
+				var mapOptions = {
+					zoom: 16,
+					center: new google.maps.LatLng(44.431447, 26.0974538),
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				}
+				map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);				
+				directionsDisplay.setMap(map);
+				showRoute();
+			}
+
+			//load async
+			function loadScript() {
+			  var script = document.createElement("script");
+			  script.type = "text/javascript";
+			  script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyAUYJIShEWrd_pCdaO5gXjmBILyDRhzUHU&sensor=false&callback=initialize";
+			  document.body.appendChild(script);
+
+			}
+
+			function showRoute() {
+				var request = {
+					origin:start,
+					destination:end,
+					travelMode: google.maps.TravelMode.DRIVING
+				};
+				directionsService.route(request, function(result, status) {
+					if (status == google.maps.DirectionsStatus.OK) {
+						directionsDisplay.setDirections(result);
+					}
+				});
 			}
 
 			window.onload = getAccess();
@@ -72,7 +124,10 @@
 			<div id="intro">
 				Please enable geolocation for your browser.
 			</div>
-			<div id="main"></div>
+			<div id="main">
+				<div id="message"></div>
+				<div id="map_canvas"></div>
+			</div>
 			<div id="footer">
 				<a href="#">about</a>
 			<div>

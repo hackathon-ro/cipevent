@@ -8,7 +8,7 @@ $longitude = $_POST['longitude'];
 
 if(is_numeric($latitude) && is_numeric($longitude)){
 	//Get next events and run-time events
-	$query =   'SELECT e.id, e.time_start, e.time_end, e.event_name, l.location_name, 
+	$query =   'SELECT e.id, e.time_start, e.time_end, e.event_name, l.location_name, l.latitude, l.longitude,
 					(6378137 * acos( cos( radians("%s") ) * cos( radians( l.latitude ) ) * cos( radians( l.longitude ) - radians("%s") ) + sin( radians("%s") ) * sin( radians( l.latitude ) ) ) ) AS distance
 					FROM events e 
 					LEFT JOIN locations l on (e.id_location = l.id)
@@ -33,5 +33,3 @@ if(is_numeric($latitude) && is_numeric($longitude)){
 }
 
 
- 
-?>
